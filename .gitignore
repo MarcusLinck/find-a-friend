@@ -1,2 +1,63 @@
-node_modules
+# Dependências
+node_modules/
+.pnpm-store/
+.npm/
+
+# Build e Compilação
+dist/
+build/
+*.tsbuildinfo
+
+# Variáveis de Ambiente e Segredos
 .env
+.env.local
+.env.*.local
+*.env
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Cobertura de Testes e Relatórios
+coverage/
+.nyc_output/
+
+# Cache de ferramentas e testes
+.turbo/
+.cache/
+.vitest/
+.eslintcache
+.stylelintcache
+
+# Banco de dados local (SQLite, se aplicável)
+*.db
+*.sqlite
+*.sqlite3
+
+# Arquivos de Sistema Operacional
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# IDEs, Editores e Ferramentas
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*.swo
