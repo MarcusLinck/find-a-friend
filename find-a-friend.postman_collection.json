@@ -1,0 +1,204 @@
+{
+	"info": {
+		"_postman_id": "find-a-friend-api-id",
+		"name": "FindAFriend API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ORGs",
+			"item": [
+				{
+					"name": "Register ORG",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Abrigo Amigo dos Animais\",\n  \"email\": \"contato@abrigo.com\",\n  \"whatsapp\": \"51988888888\",\n  \"password\": \"123456\",\n  \"cep\": \"90000000\",\n  \"state\": \"RS\",\n  \"city\": \"Canoas\",\n  \"neighborhood\": \"Centro\",\n  \"street\": \"Rua das Flores, 123\",\n  \"latitude\": -29.9189,\n  \"longitude\": -51.1794\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/orgs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orgs"
+							]
+						},
+						"description": "Cadastra uma nova organização de proteção animal."
+					},
+					"response": []
+				},
+				{
+					"name": "Authenticate ORG (Login)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.token) {",
+									"    pm.environment.set(\"authToken\", jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"contato@abrigo.com\",\n  \"password\": \"123456\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/sessions",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"sessions"
+							]
+						},
+						"description": "Realiza o login da ONG e armazena automaticamente o token JWT na variável de ambiente 'authToken'."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pets",
+			"item": [
+				{
+					"name": "Register Pet (Protected)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Thor\",\n  \"about\": \"Cachorrinho muito brincalhão e enérgico.\",\n  \"age\": \"filhote\",\n  \"size\": \"medio\",\n  \"energyLevel\": \"alta\",\n  \"independence\": \"medio\",\n  \"environment\": \"amplo\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/pets",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"pets"
+							]
+						},
+						"description": "Cadastra um novo pet vinculado à ONG logada (requer Token JWT)."
+					},
+					"response": []
+				},
+				{
+					"name": "Search Pets by City and Filters",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/pets/city/Canoas?age=filhote&size=medio&energyLevel=alta",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"pets",
+								"city",
+								"Canoas"
+							],
+							"query": [
+								{
+									"key": "age",
+									"value": "filhote",
+									"description": "filhote, adulto, senior"
+								},
+								{
+									"key": "size",
+									"value": "medio",
+									"description": "pequeno, medio, grande"
+								},
+								{
+									"key": "energyLevel",
+									"value": "alta",
+									"description": "baixa, media, alta"
+								},
+								{
+									"key": "independence",
+									"value": "medio",
+									"description": "baixo, medio, alto"
+								},
+								{
+									"key": "environment",
+									"value": "amplo",
+									"description": "compacto, amplo"
+								}
+							]
+						},
+						"description": "Lista e filtra os pets disponíveis em uma determinada cidade."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Pet Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/pets/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"pets",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "INSIRA_O_UUID_DO_PET_AQUI",
+									"description": "ID único do pet"
+								}
+							]
+						},
+						"description": "Busca os detalhes completos de um pet específico, incluindo os dados de contato da ONG."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3333",
+			"type": "string"
+		}
+	]
+}
