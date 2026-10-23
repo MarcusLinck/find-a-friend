@@ -10,6 +10,10 @@
     "rootDir": ".",
     "outDir": "./dist",
 
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+
     // Configurações de Saída e Qualidade
     "sourceMap": true,
     "strict": true,
